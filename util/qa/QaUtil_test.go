@@ -4,9 +4,14 @@ import (
 	"fmt"
 	"testing"
 	"time"
+	"github.com/satori/go.uuid"
 )
 
 func TestRecQa(t *testing.T) {
+
+	sid,_ := uuid.NewV4()
+
+	fmt.Println(sid.String())
 
 	fmt.Println(100 * time.Millisecond)
 
@@ -24,7 +29,7 @@ func TestRecQa(t *testing.T) {
 	paras["province"] = "福建省\r\n"
 	paras["appid"] = "5a0930ed\r\n"
 
-	resp := QaRec("12345", "热歌榜", &qaReqInfo)
+	resp := QaRec(sid.String(), "热歌榜", &qaReqInfo)
 
 	fmt.Println(resp)
 

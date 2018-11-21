@@ -9,10 +9,10 @@ import (
 )
 
 const (
-	QaEncode        string = "GBK"
-	QaDecode        string = "GBK"
-	QaPerReciveSize int    = 32
-	QaTimeOut       int    = 200
+	QaEncode     string        = "GBK"
+	QaDecode     string        = "GBK"
+	QaPerRecSize int           = 32
+	QaTimeOut    time.Duration = 200
 )
 
 type QaReqInfo struct {
@@ -23,8 +23,7 @@ type QaReqInfo struct {
 }
 
 func QaRec(sid string, userContent string, reqInfo *QaReqInfo) string {
-	conn, err := net.Dial("tcp", reqInfo.Addr)
-	net.DialTimeout("tcp", reqInfo.Addr, QaTimeOut)
+	conn, err := net.DialTimeout("tcp", reqInfo.Addr, QaTimeOut*time.Millisecond)
 	if err != nil {
 		fmt.Println(err)
 		return ""
@@ -53,7 +52,7 @@ func QaRec(sid string, userContent string, reqInfo *QaReqInfo) string {
 
 	var respBytes []byte
 	for {
-		tempBytes := make([]byte, QaPerReciveSize)
+		tempBytes := make([]byte, QaPerRecSize)
 		_, error := conn.Read(tempBytes[:])
 		if error != nil {
 			break
